@@ -337,6 +337,7 @@ public final class Sistema extends javax.swing.JFrame {
         btnPdfVentas = new javax.swing.JButton();
         txtIdVenta = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -1074,6 +1075,14 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("Registro de Ventas");
         jPanel6.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 280, -1));
+
+        jButton1.setText("ir a reportes");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 330, 110, 30));
 
         jTabbedPane1.addTab("5", jPanel6);
 
@@ -1955,6 +1964,11 @@ public final class Sistema extends javax.swing.JFrame {
         eventos.numberKeyPress(evt);
     }//GEN-LAST:event_txtCantMedKeyTyped
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Reports reports = new Reports();
+        reports.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2030,6 +2044,7 @@ public final class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnguardarLaboratorio;
     private javax.swing.JComboBox<Object> cbxLabMed;
     private javax.swing.JComboBox<String> cbxRol;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

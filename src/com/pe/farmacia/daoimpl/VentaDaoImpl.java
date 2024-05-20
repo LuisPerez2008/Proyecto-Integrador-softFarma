@@ -326,4 +326,35 @@ public class VentaDaoImpl implements VentaDao {
         }
     }
 
+    @Override
+    public Map<String, Integer> reportForCantSale() {
+        Map<String, Integer> listMap= new HashMap<>();
+
+        // Consulta SQL para agrupar ventas por vendedor
+        String sql = "SELECT u.nombre AS vendedor, COUNT(v.id) AS cantidad_ventas " +
+                     "FROM ventas v " +
+                     "JOIN usuarios u ON v.empleado = u.id " +
+                     "WHERE u.rol = 'vendedor' " +
+                     "GROUP BY u.nombre " +
+                     "ORDER BY cantidad_ventas DESC;";
+
+        // Conexión y ejecución
+        
+            
+        try {
+            con = Conexion.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+                    while (rs.next()) {
+                      String vendedor = rs.getString("vendedor");
+                      int cantidadVentas = rs.getInt("cantidad_ventas");   
+                      listMap.put(vendedor, cantidadVentas);
+                    }
+        } catch (SQLException ex) {
+            ;
+        }
+        return listMap;
+            
+    }
+
 }
