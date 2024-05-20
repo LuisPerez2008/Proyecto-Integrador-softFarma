@@ -149,7 +149,7 @@ public class VentaDaoImpl implements VentaDao {
         try {
             con = Conexion.getConnection();
             cs = con.prepareCall(sql);
-            cs.setInt(1, id);
+            
             rs = cs.executeQuery();
             if (rs.next()) {
                 cl.setId(rs.getInt("id"));
@@ -355,6 +355,36 @@ public class VentaDaoImpl implements VentaDao {
         }
         return listMap;
             
+    }
+
+    @Override
+    public List<Map<String, Object>> readAll3(String nombre) {
+        List<Map<String, Object>> lista = new ArrayList<>();
+         String sql = "SELECT v.id, v.fecha, v.total, u.nombre " +
+                     "FROM ventas v " +
+                     "JOIN usuarios u ON v.empleado = u.id " +
+                     "WHERE u.nombre = ?";
+        
+       
+        try {
+            con = Conexion.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            rs = ps.executeQuery();
+            while (rs.next()) {                
+                Map<String, Object> map = new HashMap<>();
+                    map.put("id", rs.getInt("id"));
+                    map.put("fecha", rs.getString("fecha"));
+                    map.put("total", rs.getDouble("total"));
+                    map.put("vendedor", rs.getString("nombre"));
+                    lista.add(map);
+            }
+             
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+        
+        return lista;
     }
 
 }

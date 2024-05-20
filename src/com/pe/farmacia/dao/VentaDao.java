@@ -28,5 +28,7 @@ public interface VentaDao {
     void convertSaleToPDF(int idventa, int cliente, double total,String fechaVenta, String usuario);
     
     Map<String, Integer> reportForCantSale();
+    
+    List<Map<String, Object>> readAll3(String nombre);
 
 }

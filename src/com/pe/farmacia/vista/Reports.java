@@ -8,8 +8,12 @@ import com.pe.farmacia.dao.VentaDao;
 import com.pe.farmacia.daoimpl.VentaDaoImpl;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import static java.awt.image.ImageObserver.HEIGHT;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -22,13 +26,14 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class Reports extends javax.swing.JFrame {
      DefaultTableModel modelo = new DefaultTableModel();
+     VentaDao v = new VentaDaoImpl();
     /**
      * Creates new form Reports
      */
     public Reports() {
         initComponents();
         setLocationRelativeTo(null);
-        
+        txtFila.setVisible(false);
         
     }
 
@@ -54,6 +59,14 @@ public class Reports extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TableReports = new javax.swing.JTable();
         jPanelGrafico = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableVentaXVen = new javax.swing.JTable();
+        btnVerVentasXnombre = new javax.swing.JButton();
+        txtFila = new javax.swing.JTextField();
+        jlabel10 = new javax.swing.JLabel();
+        txtNombreVnededor = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtTotalVendedor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,6 +143,11 @@ public class Reports extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        TableReports.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableReportsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TableReports);
         if (TableReports.getColumnModel().getColumnCount() > 0) {
             TableReports.getColumnModel().getColumn(1).setMinWidth(75);
@@ -141,12 +159,38 @@ public class Reports extends javax.swing.JFrame {
         jPanelGrafico.setLayout(jPanelGraficoLayout);
         jPanelGraficoLayout.setHorizontalGroup(
             jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
+            .addGap(0, 524, Short.MAX_VALUE)
         );
         jPanelGraficoLayout.setVerticalGroup(
             jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 357, Short.MAX_VALUE)
+            .addGap(0, 290, Short.MAX_VALUE)
         );
+
+        TableVentaXVen.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Nombre", "Fecha", "Total"
+            }
+        ));
+        jScrollPane2.setViewportView(TableVentaXVen);
+        if (TableVentaXVen.getColumnModel().getColumnCount() > 0) {
+            TableVentaXVen.getColumnModel().getColumn(0).setMinWidth(50);
+            TableVentaXVen.getColumnModel().getColumn(0).setPreferredWidth(50);
+            TableVentaXVen.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
+
+        btnVerVentasXnombre.setText("Ver ventas");
+        btnVerVentasXnombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerVentasXnombreActionPerformed(evt);
+            }
+        });
+
+        jlabel10.setText("Nombre:");
+
+        jLabel2.setText("Total Ventas S/.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -154,19 +198,50 @@ public class Reports extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jPanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnVerVentasXnombre)
+                            .addComponent(jlabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFila, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombreVnededor, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                            .addComponent(txtTotalVendedor))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(88, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanelGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(10, 10, 10))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnVerVentasXnombre)
+                            .addComponent(txtFila, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlabel10)
+                            .addComponent(txtNombreVnededor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(txtTotalVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jTabbedPane2.addTab("tab1", jPanel2);
@@ -225,13 +300,22 @@ public class Reports extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void limpiarTable() {
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            modelo.removeRow(i);
+            i = i - 1;
+        }
+    }
+    
     private void btnVerDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDatosActionPerformed
         int lista = jComboBox1.getSelectedIndex();
         switch (lista) {
             case 0:
+                    limpiarTable();
                     jTabbedPane2.setSelectedIndex(3);
                     MostrarCantidadeVentas();
-                    grafico1();
+                    GraficoVetasXVendedor();
+                    
                 break;
             case 1:
                 System.out.println("no hay nada aun");
@@ -241,6 +325,38 @@ public class Reports extends javax.swing.JFrame {
                 throw new AssertionError();
         }
     }//GEN-LAST:event_btnVerDatosActionPerformed
+
+    private void btnVerVentasXnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerVentasXnombreActionPerformed
+        if (TableReports.getSelectedRow() > -1) {
+            List<Map<String, Object>> lista = new ArrayList<>();
+            modelo = (DefaultTableModel) TableVentaXVen.getModel();
+            limpiarTable();
+            int fila = Integer.parseInt(txtFila.getText());
+            String nombre =  TableReports.getValueAt(fila, 0).toString();
+            lista = v.readAll3(nombre);
+            Object[] datos = new Object[4];
+            for (Map<String, Object> map : lista) {
+                datos[0] = map.get("id");
+                datos[1] = map.get("vendedor");
+                datos[2] = map.get("fecha");
+                datos[3] = map.get("total");
+                modelo.addRow(datos);
+            }
+            TableVentaXVen.setModel(modelo);
+            LlenarCeldas();
+        }else{
+            JOptionPane.showMessageDialog(this, "Selecione un Vendedor", "Aviso", HEIGHT);
+        }
+    }//GEN-LAST:event_btnVerVentasXnombreActionPerformed
+
+    private void TableReportsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableReportsMouseClicked
+        // TODO add your handling code here
+        txtNombreVnededor.setText("");
+        int fila = TableReports.rowAtPoint(evt.getPoint());
+        String name = TableReports.getValueAt(fila, 0).toString();
+        txtFila.setText(String.valueOf(fila));
+        txtNombreVnededor.setText(name);
+    }//GEN-LAST:event_TableReportsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -282,8 +398,23 @@ public class Reports extends javax.swing.JFrame {
             }
         });
     }
+    public void LlenarCeldas(){
+        
+        txtTotalVendedor.setText("");
+        double sum = 0;
+        for (int i = 0; i < TableVentaXVen.getRowCount(); i++) {
+                Object value = TableVentaXVen.getValueAt(i, 3);
+                if (value instanceof Number) {
+                    sum += ((Number) value).doubleValue();
+                }
+        }
+        String suma = String.valueOf(sum);
+        txtTotalVendedor.setText(suma);
+        
+    }
     
     public void MostrarCantidadeVentas(){
+        
         VentaDao v = new VentaDaoImpl();
         Map<String, Integer> listaMpita = v.reportForCantSale();
         modelo = (DefaultTableModel) TableReports.getModel();
@@ -298,7 +429,7 @@ public class Reports extends javax.swing.JFrame {
         
     }
     
-    public void grafico1(){
+    public void GraficoVetasXVendedor(){
        
         VentaDao v = new VentaDaoImpl();
         Map<String, Integer> listaMpita = v.reportForCantSale();
@@ -327,10 +458,13 @@ public class Reports extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableReports;
+    private javax.swing.JTable TableVentaXVen;
     private javax.swing.JButton btnVerDatos;
+    private javax.swing.JButton btnVerVentasXnombre;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -338,6 +472,11 @@ public class Reports extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelGrafico;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JLabel jlabel10;
+    private javax.swing.JTextField txtFila;
+    private javax.swing.JTextField txtNombreVnededor;
+    private javax.swing.JTextField txtTotalVendedor;
     // End of variables declaration//GEN-END:variables
 }
