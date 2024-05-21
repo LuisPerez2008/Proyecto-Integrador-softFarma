@@ -25,12 +25,11 @@ public class Pruevass {
         
        
         
-        venta = v.searchSaleById(1);
-        System.out.println(venta.getEmpleado());
-        int vendedor = venta.getEmpleado();
-            user = usr.searchUserById(vendedor);
-            System.out.println(user.getId());
-            System.out.println( user.getNombre());
+        Map<Integer, Integer> listamap = v.reportCantVentasXmes(2023, 12);
+        
+        for (Map.Entry<Integer, Integer> entry : listamap.entrySet()) {
+        System.out.println(entry.getKey() + ": " + entry.getValue());
+    }
     }
 
 }

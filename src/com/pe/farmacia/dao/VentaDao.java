@@ -32,5 +32,6 @@ public interface VentaDao {
     List<Map<String, Object>> readAll3(String nombre);
     
     Map<Integer, Integer> reportCantVentasXaño(int anio);
-
+    
+    Map<Integer, Integer> reportCantVentasXmes(int anio, int mes );
 }

@@ -13,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import static java.awt.image.ImageObserver.HEIGHT;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,12 +36,14 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author 51901
  */
 public class Reports extends javax.swing.JFrame {
+
     Date fecha = new Date();
     String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(fecha);
-    
-     DefaultTableModel modelo = new DefaultTableModel();
-     VentaDao v = new VentaDaoImpl();
-     SatisfaccionDao satisDao = new SatisfaccionDaoImpl();
+
+    DefaultTableModel modelo = new DefaultTableModel();
+    VentaDao v = new VentaDaoImpl();
+    SatisfaccionDao satisDao = new SatisfaccionDaoImpl();
+
     /**
      * Creates new form Reports
      */
@@ -48,7 +51,7 @@ public class Reports extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         txtFila.setVisible(false);
-        
+
     }
 
     /**
@@ -72,11 +75,7 @@ public class Reports extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         cbxmeses = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jPanelSatisfaccion = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        TableNivelSatisfacion = new javax.swing.JTable();
+        btnMes = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -90,28 +89,45 @@ public class Reports extends javax.swing.JFrame {
         txtNombreVnededor = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtTotalVendedor = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jPanelSatisfaccion = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TableNivelSatisfacion = new javax.swing.JTable();
         btnVentas = new javax.swing.JButton();
         btnSatisfaccion = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(44, 97, 114));
 
+        jButton1.setBackground(new java.awt.Color(14, 76, 117));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("volver");
+        jButton1.setBorder(null);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("GRAFICOS ");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("REPORTES ");
 
+        btnVededores.setBackground(new java.awt.Color(14, 76, 117));
+        btnVededores.setForeground(new java.awt.Color(255, 255, 255));
         btnVededores.setText("VENDEDORES");
+        btnVededores.setBorder(null);
         btnVededores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVededoresActionPerformed(evt);
             }
         });
+
+        jPanel3.setAlignmentX(0.0F);
+        jPanel3.setAlignmentY(0.0F);
 
         javax.swing.GroupLayout jPanelVentasXanioLayout = new javax.swing.GroupLayout(jPanelVentasXanio);
         jPanelVentasXanio.setLayout(jPanelVentasXanioLayout);
@@ -137,9 +153,14 @@ public class Reports extends javax.swing.JFrame {
 
         jLabel4.setText("Selecionar mes");
 
-        cbxmeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Noviembre", "Diciembre" }));
+        cbxmeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
-        jButton2.setText("VER");
+        btnMes.setText("VER");
+        btnMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -149,16 +170,19 @@ public class Reports extends javax.swing.JFrame {
                 .addGap(0, 8, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(cbxAnios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnAnio))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(cbxmeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(cbxAnios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAnio))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                        .addComponent(btnMes, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jPanelVentasXanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -180,63 +204,11 @@ public class Reports extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbxmeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))))
+                            .addComponent(btnMes))))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("tab2", jPanel3);
-
-        javax.swing.GroupLayout jPanelSatisfaccionLayout = new javax.swing.GroupLayout(jPanelSatisfaccion);
-        jPanelSatisfaccion.setLayout(jPanelSatisfaccionLayout);
-        jPanelSatisfaccionLayout.setHorizontalGroup(
-            jPanelSatisfaccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-        );
-        jPanelSatisfaccionLayout.setVerticalGroup(
-            jPanelSatisfaccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 299, Short.MAX_VALUE)
-        );
-
-        TableNivelSatisfacion.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nivel", "Cantidad"
-            }
-        ));
-        jScrollPane3.setViewportView(TableNivelSatisfacion);
-        if (TableNivelSatisfacion.getColumnModel().getColumnCount() > 0) {
-            TableNivelSatisfacion.getColumnModel().getColumn(1).setMinWidth(70);
-            TableNivelSatisfacion.getColumnModel().getColumn(1).setPreferredWidth(70);
-            TableNivelSatisfacion.getColumnModel().getColumn(1).setMaxWidth(70);
-        }
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanelSatisfaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(jPanelSatisfaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(99, Short.MAX_VALUE))
-        );
-
-        jTabbedPane2.addTab("tab3", jPanel4);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -372,19 +344,80 @@ public class Reports extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("tab1", jPanel2);
 
+        javax.swing.GroupLayout jPanelSatisfaccionLayout = new javax.swing.GroupLayout(jPanelSatisfaccion);
+        jPanelSatisfaccion.setLayout(jPanelSatisfaccionLayout);
+        jPanelSatisfaccionLayout.setHorizontalGroup(
+            jPanelSatisfaccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 480, Short.MAX_VALUE)
+        );
+        jPanelSatisfaccionLayout.setVerticalGroup(
+            jPanelSatisfaccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 299, Short.MAX_VALUE)
+        );
+
+        TableNivelSatisfacion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nivel", "Cantidad"
+            }
+        ));
+        jScrollPane3.setViewportView(TableNivelSatisfacion);
+        if (TableNivelSatisfacion.getColumnModel().getColumnCount() > 0) {
+            TableNivelSatisfacion.getColumnModel().getColumn(1).setMinWidth(70);
+            TableNivelSatisfacion.getColumnModel().getColumn(1).setPreferredWidth(70);
+            TableNivelSatisfacion.getColumnModel().getColumn(1).setMaxWidth(70);
+        }
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanelSatisfaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(jPanelSatisfaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("tab3", jPanel4);
+
+        btnVentas.setBackground(new java.awt.Color(14, 76, 117));
+        btnVentas.setForeground(new java.awt.Color(255, 255, 255));
         btnVentas.setText("VENTAS");
+        btnVentas.setBorder(null);
         btnVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVentasActionPerformed(evt);
             }
         });
 
+        btnSatisfaccion.setBackground(new java.awt.Color(14, 76, 117));
+        btnSatisfaccion.setForeground(new java.awt.Color(255, 255, 255));
         btnSatisfaccion.setText("SATISFACCION");
+        btnSatisfaccion.setBorder(null);
         btnSatisfaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSatisfaccionActionPerformed(evt);
             }
         });
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/pe/farmacia/img/header-reporte.png"))); // NOI18N
+        jLabel5.setText("jLabel5");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -393,46 +426,47 @@ public class Reports extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnVededores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVentas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSatisfaccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)))
-                .addGap(20, 20, 20)
-                .addComponent(jTabbedPane2))
+                        .addGap(210, 210, 210)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(btnVededores, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(btnSatisfaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(130, 130, 130)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24)
                 .addComponent(btnVededores, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(btnSatisfaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(28, 28, 28))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 38, Short.MAX_VALUE)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(198, 198, 198)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -447,15 +481,15 @@ public class Reports extends javax.swing.JFrame {
             i = i - 1;
         }
     }
-    
+
     private void btnVededoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVededoresActionPerformed
-        
+
         limpiarTable();
         jTabbedPane2.setSelectedIndex(3);
         MostrarCantidadeVentas();
         GraficoVetasXVendedor();
-                    
-          
+
+
     }//GEN-LAST:event_btnVededoresActionPerformed
 
     private void btnVerVentasXnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerVentasXnombreActionPerformed
@@ -464,7 +498,7 @@ public class Reports extends javax.swing.JFrame {
             modelo = (DefaultTableModel) TableVentaXVen.getModel();
             limpiarTable();
             int fila = Integer.parseInt(txtFila.getText());
-            String nombre =  TableReports.getValueAt(fila, 0).toString();
+            String nombre = TableReports.getValueAt(fila, 0).toString();
             lista = v.readAll3(nombre);
             Object[] datos = new Object[4];
             for (Map<String, Object> map : lista) {
@@ -476,7 +510,7 @@ public class Reports extends javax.swing.JFrame {
             }
             TableVentaXVen.setModel(modelo);
             LlenarCeldas();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Selecione un Vendedor", "Aviso", HEIGHT);
         }
     }//GEN-LAST:event_btnVerVentasXnombreActionPerformed
@@ -492,8 +526,8 @@ public class Reports extends javax.swing.JFrame {
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
         jTabbedPane2.setSelectedIndex(0);
-        
-        
+
+
     }//GEN-LAST:event_btnVentasActionPerformed
 
     private void btnSatisfaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSatisfaccionActionPerformed
@@ -519,13 +553,76 @@ public class Reports extends javax.swing.JFrame {
                 break;
             case 3:
                 jPanelVentasXanio.removeAll();
-                 GraficosVentasxAnio(anio);
+                GraficosVentasxAnio(anio);
                 break;
-    
+
             default:
                 throw new AssertionError();
         }
     }//GEN-LAST:event_btnAnioActionPerformed
+
+    private void btnMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesActionPerformed
+        int indexAnio = cbxAnios.getSelectedIndex();
+        String anio = (String) cbxAnios.getItemAt(indexAnio);
+        int indexMes = cbxmeses.getSelectedIndex();
+        String mes = (String) cbxmeses.getItemAt(indexMes);
+        int indexAux = indexMes+1;
+        String mesAux = String.valueOf(indexAux);
+        switch (indexMes) {
+            case 0:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 1:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 2:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 3:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 4:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 5:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 6:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 7:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 8:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 9:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 10:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            case 11:
+                jPanelVentasXanio.removeAll();
+                GraficosVentasxMes(mesAux, anio);
+                break;
+            
+            default:
+                throw new AssertionError();
+        }
+
+    }//GEN-LAST:event_btnMesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -567,24 +664,26 @@ public class Reports extends javax.swing.JFrame {
             }
         });
     }
-    public void LlenarCeldas(){
-        
+
+    public void LlenarCeldas() {
+
         txtTotalVendedor.setText("");
         double sum = 0;
         for (int i = 0; i < TableVentaXVen.getRowCount(); i++) {
-                Object value = TableVentaXVen.getValueAt(i, 3);
-                if (value instanceof Number) {
-                    sum += ((Number) value).doubleValue();
-                }
+            Object value = TableVentaXVen.getValueAt(i, 3);
+            if (value instanceof Number) {
+                sum += ((Number) value).doubleValue();
+            }
         }
-        String suma = String.valueOf(sum);
+        DecimalFormat df = new DecimalFormat("#.##");
+        double roundedSum = Double.parseDouble(df.format(sum));
+        String suma = String.valueOf(roundedSum);
         txtTotalVendedor.setText(suma);
-        
+
     }
-    
-    public void MostrarCantidadeVentas(){
-        
-        
+
+    public void MostrarCantidadeVentas() {
+
         Map<String, Integer> listaMpita = v.reportForCantSale();
         modelo = (DefaultTableModel) TableReports.getModel();
         Object[] ob = new Object[2];
@@ -593,19 +692,19 @@ public class Reports extends javax.swing.JFrame {
             ob[1] = entry.getValue(); // Valor del mapa
             modelo.addRow(ob);
         }
-         
+
         TableReports.setModel(modelo);
-        
+
     }
-    
-    public void GraficoVetasXVendedor(){
-       
+
+    public void GraficoVetasXVendedor() {
+
         Map<String, Integer> listaMpita = v.reportForCantSale();
-         DefaultPieDataset data = new DefaultPieDataset();
-        
-         for (Map.Entry<String, Integer> entry : listaMpita.entrySet()) {
+        DefaultPieDataset data = new DefaultPieDataset();
+
+        for (Map.Entry<String, Integer> entry : listaMpita.entrySet()) {
             data.setValue(entry.getKey(), entry.getValue());
-            
+
         }
         JFreeChart grafico = ChartFactory.createPieChart(
                 "ventas por vendedores",
@@ -614,36 +713,36 @@ public class Reports extends javax.swing.JFrame {
                 true,
                 false
         );
-        
+
         ChartPanel chartPanel = new ChartPanel(grafico);
         chartPanel.setPreferredSize(new Dimension(480, 295));
-        
+
         jPanelGrafico.setLayout(new BorderLayout());
         jPanelGrafico.add(chartPanel, BorderLayout.NORTH);
         pack();
         repaint();
     }
-    
-    public void MostrarCantidadSatisfaccion(){
-        
-         Map<String, Integer> listaMpita = satisDao.cantidadDePuntuacion();
-         modelo = (DefaultTableModel) TableNivelSatisfacion.getModel();
-         Object[] ob = new Object[2];
-         for (Map.Entry<String, Integer> entry : listaMpita.entrySet()) {
-             ob[0] = entry.getKey();
-             ob[1] = entry.getValue();
-             modelo.addRow(ob);
-         }
-         
-         TableNivelSatisfacion.setModel(modelo);
+
+    public void MostrarCantidadSatisfaccion() {
+
+        Map<String, Integer> listaMpita = satisDao.cantidadDePuntuacion();
+        modelo = (DefaultTableModel) TableNivelSatisfacion.getModel();
+        Object[] ob = new Object[2];
+        for (Map.Entry<String, Integer> entry : listaMpita.entrySet()) {
+            ob[0] = entry.getKey();
+            ob[1] = entry.getValue();
+            modelo.addRow(ob);
+        }
+
+        TableNivelSatisfacion.setModel(modelo);
     }
-    
-    public void GraficoVetasXSatisfaccion(){
+
+    public void GraficoVetasXSatisfaccion() {
         Map<String, Integer> listaMpita = satisDao.cantidadDePuntuacion();
         DefaultPieDataset data = new DefaultPieDataset();
         for (Map.Entry<String, Integer> entry : listaMpita.entrySet()) {
             data.setValue(entry.getKey(), entry.getValue());
-            
+
         }
         JFreeChart grafico = ChartFactory.createPieChart(
                 "Nivel de Satisfacion",
@@ -659,29 +758,29 @@ public class Reports extends javax.swing.JFrame {
         pack();
         repaint();
     }
-    
-    public void GraficosVentasxAnio(String anio){
+
+    public void GraficosVentasxAnio(String anio) {
         XYSeries series = new XYSeries(anio);
         int anioBuscar = Integer.parseInt(anio);
         Map<Integer, Integer> data = v.reportCantVentasXaño(anioBuscar);
-        
+
         for (Map.Entry<Integer, Integer> entry : data.entrySet()) {
             series.add(entry.getKey(), entry.getValue());
         }
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(series);
-        
-        JFreeChart chart = ChartFactory.createXYLineChart("ventas por mes y año",
+
+        JFreeChart chart = ChartFactory.createXYLineChart("ventas en el año",
                 "Mes",
                 "Cantidad de ventas",
                 dataset,
-                PlotOrientation.VERTICAL,true,true,true);
-        
+                PlotOrientation.VERTICAL, true, true, true);
+
         XYLineAndShapeRenderer render = new XYLineAndShapeRenderer();
-        render.setSeriesPaint(0, Color.BLUE );
+        render.setSeriesPaint(0, Color.BLUE);
         render.setSeriesStroke(0, new BasicStroke(2));
         chart.getXYPlot().setRenderer(render);
-        
+
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(620, 340));
         jPanelVentasXanio.setLayout(new BorderLayout());
@@ -690,27 +789,57 @@ public class Reports extends javax.swing.JFrame {
         //revalidate();
         repaint();
     }
-    
-    /*JFreeChart chart = ChartFactory.createXYAreaChart("ventas por mes y año",
-                "Mes",
+
+    public void GraficosVentasxMes(String mes, String anio) {
+        XYSeries series = new XYSeries(mes);
+        int anioBuscar = Integer.parseInt(anio);
+        int mesBuscar = Integer.parseInt(mes);
+        
+        Map<Integer, Integer> data = v.reportCantVentasXmes(anioBuscar, mesBuscar);
+
+        for (Map.Entry<Integer, Integer> entry : data.entrySet()) {
+            series.add(entry.getKey(), entry.getValue());
+        }
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+
+        JFreeChart chart = ChartFactory.createXYLineChart("ventas por mes",
+                "Día",
                 "Cantidad de ventas",
                 dataset,
-                PlotOrientation.VERTICAL,true,true,false);
-        
+                PlotOrientation.VERTICAL, true, true, true);
+
+        XYLineAndShapeRenderer render = new XYLineAndShapeRenderer();
+        render.setSeriesPaint(0, Color.BLUE);
+        render.setSeriesStroke(0, new BasicStroke(2));
+        chart.getXYPlot().setRenderer(render);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(620, 340));
         jPanelVentasXanio.setLayout(new BorderLayout());
         jPanelVentasXanio.add(chartPanel, BorderLayout.NORTH);
         pack();
-        revalidate();
+        //revalidate();
         repaint();
-    */
-    
+    }
+    /*
+     * JFreeChart chart = ChartFactory.createXYAreaChart("ventas por mes y año",
+     * "Mes", "Cantidad de ventas", dataset,
+     * PlotOrientation.VERTICAL,true,true,false);
+     *
+     * ChartPanel chartPanel = new ChartPanel(chart);
+     * chartPanel.setPreferredSize(new Dimension(620, 340));
+     * jPanelVentasXanio.setLayout(new BorderLayout());
+     * jPanelVentasXanio.add(chartPanel, BorderLayout.NORTH); pack();
+     * revalidate(); repaint();
+     */
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableNivelSatisfacion;
     private javax.swing.JTable TableReports;
     private javax.swing.JTable TableVentaXVen;
     private javax.swing.JButton btnAnio;
+    private javax.swing.JButton btnMes;
     private javax.swing.JButton btnSatisfaccion;
     private javax.swing.JButton btnVededores;
     private javax.swing.JButton btnVentas;
@@ -718,11 +847,11 @@ public class Reports extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxAnios;
     private javax.swing.JComboBox<String> cbxmeses;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

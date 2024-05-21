@@ -1,4 +1,5 @@
 package com.pe.farmacia.daoimpl;
+
 import com.pe.farmacia.config.Conexion;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -86,12 +87,10 @@ public class VentaDaoImpl implements VentaDao {
             r = cs.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.toString());
-        } 
+        }
         return r;
     }
 
-    
-    
     @Override
     public List<Map<String, Object>> readAll2() {
         String sql = "SELECT v.id,c.nombre as cliente,e.nombre as vendedor,v.fecha,v.total"
@@ -103,19 +102,19 @@ public class VentaDaoImpl implements VentaDao {
             con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("id", rs.getInt(1));
                 map.put("cliente", rs.getString(2));
-                map.put("vendedor", rs.getString(3)); 
+                map.put("vendedor", rs.getString(3));
                 map.put("fecha", rs.getString(4));
                 map.put("total", rs.getDouble(5));
                 lista.add(map);
             }
         } catch (SQLException e) {
-            System.out.println("Error: "+e);
+            System.out.println("Error: " + e);
         }
-        
+
         return lista;
     }
 
@@ -140,7 +139,7 @@ public class VentaDaoImpl implements VentaDao {
         }
         return cl;
     }
-    
+
     @Override
     public void updateStock(int cant, int id) {
         String sql = "{CALL sp_actualizar_stock_medicamento(?,?)}";
@@ -158,7 +157,7 @@ public class VentaDaoImpl implements VentaDao {
     @Override
     public void convertSaleToPDF(int idventa, int cliente, double total, String fechaVenta, String usuario) {
         try {
- 
+
             FileOutputStream archivo;
             String url = FileSystemView.getFileSystemView().getDefaultDirectory().getPath();
             File salida = new File(url + "venta.pdf");
@@ -172,7 +171,7 @@ public class VentaDaoImpl implements VentaDao {
             Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
             fecha.add(Chunk.NEWLINE);
             fecha.add("Vendedor: " + usuario + "\nFolio: " + idventa + "\nFecha: "
-                    + fechaVenta+ "\n\n");
+                    + fechaVenta + "\n\n");
             PdfPTable Encabezado = new PdfPTable(4);
             Encabezado.setWidthPercentage(100);
             Encabezado.getDefaultCell().setBorder(0);
@@ -305,75 +304,74 @@ public class VentaDaoImpl implements VentaDao {
 
     @Override
     public Map<String, Integer> reportForCantSale() {
-        Map<String, Integer> listMap= new HashMap<>();
+        Map<String, Integer> listMap = new HashMap<>();
 
         // Consulta SQL para agrupar ventas por vendedor
-        String sql = "SELECT u.nombre AS vendedor, COUNT(v.id) AS cantidad_ventas " +
-                     "FROM ventas v " +
-                     "JOIN usuarios u ON v.empleado = u.id " +
-                     "WHERE u.rol = 'vendedor' " +
-                     "GROUP BY u.nombre " +
-                     "ORDER BY cantidad_ventas DESC;";
+        String sql = "SELECT u.nombre AS vendedor, COUNT(v.id) AS cantidad_ventas "
+                + "FROM ventas v "
+                + "JOIN usuarios u ON v.empleado = u.id "
+                + "WHERE u.rol = 'vendedor' "
+                + "GROUP BY u.nombre "
+                + "ORDER BY cantidad_ventas DESC;";
         try {
             con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-                    while (rs.next()) {
-                      String vendedor = rs.getString("vendedor");
-                      int cantidadVentas = rs.getInt("cantidad_ventas");   
-                      listMap.put(vendedor, cantidadVentas);
-                    }
+            while (rs.next()) {
+                String vendedor = rs.getString("vendedor");
+                int cantidadVentas = rs.getInt("cantidad_ventas");
+                listMap.put(vendedor, cantidadVentas);
+            }
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         }
         return listMap;
-            
+
     }
 
     @Override
     public List<Map<String, Object>> readAll3(String nombre) {
         List<Map<String, Object>> lista = new ArrayList<>();
-         String sql = "SELECT v.id, v.fecha, v.total, u.nombre " +
-                     "FROM ventas v " +
-                     "JOIN usuarios u ON v.empleado = u.id " +
-                     "WHERE u.nombre = ?";
-        
-       
+        String sql = "SELECT v.id, v.fecha, v.total, u.nombre "
+                + "FROM ventas v "
+                + "JOIN usuarios u ON v.empleado = u.id "
+                + "WHERE u.nombre = ?";
+
         try {
             con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, nombre);
             rs = ps.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 Map<String, Object> map = new HashMap<>();
-                    map.put("id", rs.getInt("id"));
-                    map.put("fecha", rs.getString("fecha"));
-                    map.put("total", rs.getDouble("total"));
-                    map.put("vendedor", rs.getString("nombre"));
-                    lista.add(map);
+                map.put("id", rs.getInt("id"));
+                map.put("fecha", rs.getString("fecha"));
+                map.put("total", rs.getDouble("total"));
+                map.put("vendedor", rs.getString("nombre"));
+                lista.add(map);
             }
-             
+
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         }
-        
+
         return lista;
     }
 
     @Override
     public Map<Integer, Integer> reportCantVentasXaño(int anio) {
         Map<Integer, Integer> listMap = new HashMap<>();
-         String sql = "SELECT MONTH(STR_TO_DATE(fecha, '%d/%m/%Y')) AS mes, COUNT(*) AS cantidad_ventas " +
-                         "FROM ventas " +
-                         "WHERE YEAR(STR_TO_DATE(fecha, '%d/%m/%Y')) = ? " +
-                         "GROUP BY mes " +
-                         "ORDER BY mes";
-         
+        String sql = "SELECT MONTH(STR_TO_DATE(fecha, '%d/%m/%Y')) AS mes, COUNT(*) AS cantidad_ventas "
+                + "FROM ventas "
+                + "WHERE YEAR(STR_TO_DATE(fecha, '%d/%m/%Y')) = ? "
+                + "GROUP BY mes "
+                + "ORDER BY mes";
+
         try {
             con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, anio);
-            
+
             rs = ps.executeQuery();
             while (rs.next()) {
                 int mes = rs.getInt("mes");
@@ -383,8 +381,34 @@ public class VentaDaoImpl implements VentaDao {
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         }
-        
+
         return listMap;
+    }
+
+    @Override
+    public Map<Integer, Integer> reportCantVentasXmes( int anio, int mes) {
+        Map<Integer, Integer> reporteVentasXmes = new HashMap();
+        String sql = "SELECT DAY(STR_TO_DATE(fecha, '%d/%m/%Y')) AS dia, COUNT(*) AS cantidad_ventas "
+                + "FROM ventas "
+                + "WHERE YEAR(STR_TO_DATE(fecha, '%d/%m/%Y')) = ? AND MONTH(STR_TO_DATE(fecha, '%d/%m/%Y')) = ? "
+                + "GROUP BY dia";
+
+        try {
+            con = Conexion.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, anio);
+            ps.setInt(2, mes);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int dia = rs.getInt("dia");
+                int cantidadVentas = rs.getInt("cantidad_ventas");
+                reporteVentasXmes.put(dia, cantidadVentas);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return reporteVentasXmes;
     }
 
 }
