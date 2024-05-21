@@ -1700,10 +1700,6 @@ public final class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarClienteActionPerformed
 
-    private void txtDniClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniClienteKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDniClienteKeyTyped
-
     private void TableClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableClienteMouseClicked
         // TODO add your handling code here:
         btnEditarCliente.setEnabled(true);
@@ -1983,6 +1979,10 @@ public final class Sistema extends javax.swing.JFrame {
         Reports reports = new Reports();
         reports.setVisible(true);
     }//GEN-LAST:event_btnReportesActionPerformed
+
+    private void txtDniClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniClienteKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDniClienteKeyTyped
 
     /**
      * @param args the command line arguments
