@@ -75,7 +75,7 @@ public final class Sistema extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         Midate.setDate(fechaVenta);
         txtIdCliente.setVisible(false);
-        txtIdVenta.setVisible(false);
+        txtIdVenta.setVisible(true);
         txtIdMedVenta.setVisible(false);
         txtIdVendedor.setVisible(false);
         txtIdVendedor.setEnabled(false);
@@ -86,6 +86,7 @@ public final class Sistema extends javax.swing.JFrame {
         txtIdUsuario.setVisible(false);
         btnEliminarventa.setEnabled(false);
         //btnGraficar.setVisible(false);
+       
 
         llenarDatosFarmacia();
         if (usuarioLogeado.getRol().equals("Vendedor")) {
@@ -1731,6 +1732,19 @@ public final class Sistema extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "No hay medicamentos en la venta");
         }
+        try {
+               int dni = Integer.parseInt(txtDNIVenta.getText());
+                Cliente cliente = new ClienteDaoImpl().searchClientByDNI(dni);
+                int idCliente = cliente.getId();
+                
+                SatisfaccionVista satisfaccionFrame = new SatisfaccionVista(idCliente);
+                satisfaccionFrame.setVisible(true);
+                 
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        
+        
 
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
@@ -2239,7 +2253,7 @@ public final class Sistema extends javax.swing.JFrame {
     }
 
     private void LimpiarClienteventa() {
-        txtDNIVenta.setText("");
+        //txtDNIVenta.setText("");
         txtNombreClienteventa.setText("");
         txtIdClienteVenta.setText("");
     }

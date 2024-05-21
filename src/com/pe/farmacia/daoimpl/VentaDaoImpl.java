@@ -90,30 +90,7 @@ public class VentaDaoImpl implements VentaDao {
         return r;
     }
 
-    /*
-    @Override
-    public List<Venta> readAll() {
-        List<Venta> listaventas = new ArrayList();
-        String sql = "select v.id,c.nombre as nom_cli,e.nombre as nom_emp,v.fecha,v.total from ventas v"
-                + " inner join clientes c on c.id = v.cliente inner join usuarios e on e.id = v.empleado order by id desc";
-        try {
-            con = Conexion.getConnection();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Venta vent = new Venta();
-                vent.setId(rs.getInt("id"));
-                vent.setNombre_cli(rs.getString("nom_cli"));
-                vent.setNombre_emp(rs.getString("nom_emp"));
-                vent.setFecha(rs.getString("fecha"));
-                vent.setTotal(rs.getDouble("total"));
-                listaventas.add(vent);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.toString());
-        }
-        return listaventas;
-    }*/
+    
     
     @Override
     public List<Map<String, Object>> readAll2() {
@@ -149,7 +126,7 @@ public class VentaDaoImpl implements VentaDao {
         try {
             con = Conexion.getConnection();
             cs = con.prepareCall(sql);
-            
+            cs.setInt(1, id);
             rs = cs.executeQuery();
             if (rs.next()) {
                 cl.setId(rs.getInt("id"));
@@ -337,10 +314,6 @@ public class VentaDaoImpl implements VentaDao {
                      "WHERE u.rol = 'vendedor' " +
                      "GROUP BY u.nombre " +
                      "ORDER BY cantidad_ventas DESC;";
-
-        // Conexión y ejecución
-        
-            
         try {
             con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
@@ -351,7 +324,7 @@ public class VentaDaoImpl implements VentaDao {
                       listMap.put(vendedor, cantidadVentas);
                     }
         } catch (SQLException ex) {
-            ;
+            System.out.println(ex.toString());
         }
         return listMap;
             
@@ -385,6 +358,33 @@ public class VentaDaoImpl implements VentaDao {
         }
         
         return lista;
+    }
+
+    @Override
+    public Map<Integer, Integer> reportCantVentasXaño(int anio) {
+        Map<Integer, Integer> listMap = new HashMap<>();
+         String sql = "SELECT MONTH(STR_TO_DATE(fecha, '%d/%m/%Y')) AS mes, COUNT(*) AS cantidad_ventas " +
+                         "FROM ventas " +
+                         "WHERE YEAR(STR_TO_DATE(fecha, '%d/%m/%Y')) = ? " +
+                         "GROUP BY mes " +
+                         "ORDER BY mes";
+         
+        try {
+            con = Conexion.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, anio);
+            
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int mes = rs.getInt("mes");
+                int cantidadVentas = rs.getInt("cantidad_ventas");
+                listMap.put(mes, cantidadVentas);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+        
+        return listMap;
     }
 
 }

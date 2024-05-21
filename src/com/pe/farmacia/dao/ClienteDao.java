@@ -15,5 +15,5 @@ public interface ClienteDao {
     void update(Cliente cl);
 
     Cliente searchClientByDNI(int dni);
-
+    
 }
